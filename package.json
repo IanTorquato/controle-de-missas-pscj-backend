@@ -25,7 +25,7 @@
 		"dev": "tsnd --transpile-only --ignore-watch node_modules src/server.ts",
 		"knex:migrate": "knex --knexfile dist/knexfile.js migrate:latest",
 		"knex:rollback": "knex --knexfile dist/knexfile.js migrate:rollback",
-		"knex:seed": "knex --knexfile dist/knexfile.ts seed:run",
+		"knex:seed": "knex --knexfile dist/knexfile.js seed:run",
 		"start": "node dist/src/server.js"
 	},
 	"version": "1.0.0"
