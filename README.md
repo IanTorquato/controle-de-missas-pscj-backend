@@ -8,7 +8,7 @@
     <img alt="Feito por Ian Torquato" src="https://img.shields.io/badge/made%20by-Ian%20Torquato-%2304D361">
   </a>
   
-  <a href="https://github.com/IanTorquato/Projeto_PSCJ/search?l=typescript">
+  <a href="https://github.com/IanTorquato/Projeto_PSCJ-Backend/search?l=typescript">
     <img alt="Quantidade de linguagens" src="https://img.shields.io/github/languages/count/IanTorquato/Projeto_PSCJ-Backend">
   </a>
   
