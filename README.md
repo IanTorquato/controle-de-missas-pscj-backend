@@ -12,7 +12,7 @@
     <img alt="Quantidade de linguagens" src="https://img.shields.io/github/languages/count/IanTorquato/Projeto_PSCJ-Backend">
   </a>
   
-  <a href="https://github.com/IanTorquato/Ecoleta-Rocketseat-NLW/stargazers">
+  <a href="https://github.com/IanTorquato/Projeto_PSCJ-Backend/stargazers">
     <img alt="Stargazers" src="https://img.shields.io/github/stars/IanTorquato/Projeto_PSCJ-Backend">
   </a>
 </p>
