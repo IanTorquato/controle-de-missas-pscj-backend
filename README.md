@@ -1,5 +1,5 @@
 <h1> Projeto-Missas-PSCJ Backend </h1>
- <h3 align="center"> Backend da aplicação <a href="https://github.com/IanTorquato/Projeto_PSCJ">Projeto_PSCJ</a>. </h3>
+ <h3 align="center"> Agendamento de missas da Paróquia Sagrado Coração de Jesus durante a Pandemia. </h3>
 
 <p align="center">
   <img alt="Tamanho do repositório" src="https://img.shields.io/github/repo-size/IanTorquato/Projeto_PSCJ-Backend">
