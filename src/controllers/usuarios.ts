@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+
 import knex from '../database/connection'
 
 class Usuarios {
@@ -25,11 +26,9 @@ class Usuarios {
 			const usuario = await knex('usuarios').where({ nome, email }).first()
 
 			if (usuario) {
-				if (usuario.foto) {
-					return response.json({ ...usuario, foto: `http://192.168.0.107:3333/uploads/fotosPerfis/${usuario.foto}` })
-				}
+				if (!usuario.foto) { return response.json(usuario) }
 
-				return response.json(usuario)
+				return response.json({ ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}` })
 			}
 
 			const emailExistente = await knex('usuarios').where({ email }).first().select('email')
@@ -48,19 +47,15 @@ class Usuarios {
 		try {
 			const usuarios = await knex('usuarios')
 
-			if (usuarios[0]) {
-				const usuariosSerializados = usuarios.map(usuario => {
-					if (usuario.foto) {
-						return { ...usuario, foto: `http://192.168.0.107:3333/uploads/fotosPerfis/${usuario.foto}` }
-					}
+			if (!usuarios[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
 
-					return usuario
-				})
+			const usuariosSerializados = usuarios.map(usuario => {
+				if (usuario.foto) { return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}` } }
 
-				return response.json(usuariosSerializados)
-			}
+				return usuario
+			})
 
-			return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
+			return response.json(usuariosSerializados)
 		} catch (error) {
 			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar usuários.' })
 		}

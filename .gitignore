@@ -1,10 +1,6 @@
 node_modules
 package-lock.json
-npm-debug.*
 .env
 
 uploads/fotosPerfis/*
 !uploads/fotosPerfis/.gitkeep
-uploads/fotosLocais/*
-!uploads/fotosLocais/.gitkeep
-src/database/database.sqlite
