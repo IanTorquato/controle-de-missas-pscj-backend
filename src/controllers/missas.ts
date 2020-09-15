@@ -141,11 +141,11 @@ class Missas {
 		const trx = await knex.transaction()
 
 		try {
-			// Retorna 1 se conseguiu excluir e 0 se não conseguiu, ou seja, se existia ou não a missa
-			const missaExistente = await trx('missas').where({ id }).first().delete()
+			// Retorna 1 se conseguiu excluir e 0 se não conseguiu
+			const missaExcluida = await trx('missa_usuario').where({ missa_id: id }).delete()
 
-			if (missaExistente) {
-				await trx('missa_usuario').where({ missa_id: id }).delete()
+			if (missaExcluida) {
+				await trx('missas').where({ id }).first().delete()
 
 				await trx.commit()
 
