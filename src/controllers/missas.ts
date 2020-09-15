@@ -19,7 +19,7 @@ class Missas {
 
 			return response.status(201).json({ mensagem: 'Missa criada com sucesso!' })
 		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar criar missa.' })
+			return response.status(500).json({ erro: 'Falha no servidor ao tentar criar missa.', detalheErro: error })
 		}
 	}
 
@@ -56,7 +56,7 @@ class Missas {
 
 				return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
 			} catch (error) {
-				return response.status(500).json({ erro: 'Erro na filtragem de missas pelo usuário!' })
+				return response.status(500).json({ erro: 'Erro na filtragem de missas pelo usuário!', detalheErro: error })
 			}
 		}
 
@@ -73,8 +73,8 @@ class Missas {
 
 				return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
 
-			} catch (erro) {
-				return response.status(500).json({ erro: 'Erro na filtragem de missas pelo Local!' })
+			} catch (error) {
+				return response.status(500).json({ erro: 'Erro na filtragem de missas pelo Local!', detalheErro: error })
 			}
 		}
 
@@ -88,8 +88,8 @@ class Missas {
 				if (missas[0]) { return response.json(missas.slice(0, quantidadeMissas)) }
 
 				return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
-			} catch (erro) {
-				return response.status(500).json({ erro: 'Erro na filtragem de missas por Quantidade!' })
+			} catch (error) {
+				return response.status(500).json({ erro: 'Erro na filtragem de missas por Quantidade!', detalheErro: error })
 			}
 		}
 
@@ -104,7 +104,9 @@ class Missas {
 
 				return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
 			} catch (error) {
-				return response.status(500).json({ erro: 'Falha no servidor ao tentar listar as missas cadastradas!' })
+				return response.status(500).json({
+					erro: 'Falha no servidor ao tentar listar as missas cadastradas!', detalheErro: error
+				})
 			}
 		}
 	}
@@ -119,7 +121,7 @@ class Missas {
 
 			return response.status(404).json({ erro: 'Missa não encontrada!' })
 		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar uma única missa.' })
+			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar uma única missa.', detalheErro: error })
 		}
 	}
 
@@ -132,7 +134,7 @@ class Missas {
 
 			return response.json({ mensagem: 'Missa atualizada com sucesso!' })
 		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar atualizar missa.' })
+			return response.status(500).json({ erro: 'Falha no servidor ao tentar atualizar missa.', detalheErro: error })
 		}
 	}
 

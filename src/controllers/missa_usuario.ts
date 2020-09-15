@@ -27,7 +27,9 @@ class MissaUsuario {
 		} catch (error) {
 			await trx.rollback()
 
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar criar o relacionamento missa-usuario.' })
+			return response.status(500).json({
+				erro: 'Falha no servidor ao tentar criar o relacionamento missa-usuario.', detalheErro: error
+			})
 		}
 	}
 
@@ -39,7 +41,9 @@ class MissaUsuario {
 
 			return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
 		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar o relacionamento missa-usuario.' })
+			return response.status(500).json({
+				erro: 'Falha no servidor ao tentar listar o relacionamento missa-usuario.', detalheErro: error
+			})
 		}
 	}
 }

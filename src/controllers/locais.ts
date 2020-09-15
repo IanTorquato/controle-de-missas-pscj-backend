@@ -15,7 +15,7 @@ class Locais {
 
 			return response.json(locaisSerializados)
 		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar locais.' })
+			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar locais.', detalheErro: error })
 		}
 	}
 }

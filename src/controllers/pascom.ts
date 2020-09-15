@@ -17,7 +17,7 @@ class Pascom {
 
       return response.status(201).json({ mensagem: 'Usuário criado com sucesso!' })
     } catch (error) {
-      return response.status(500).json({ erro: 'Falha no servidor ao tentar criar o usuário da Pascom!' })
+      return response.status(500).json({ erro: 'Falha no servidor ao tentar criar o usuário da Pascom!', detalheErro: error })
     }
   }
 
@@ -33,7 +33,7 @@ class Pascom {
 
       return response.status(400).json({ erro: 'Falha ao fazer login! Por favor, tente novamente.' })
     } catch (error) {
-      return response.status(500).json({ erro: 'Falha no servidor ao tentar logar!' })
+      return response.status(500).json({ erro: 'Falha no servidor ao tentar logar!', detalheErro: error })
     }
   }
 }

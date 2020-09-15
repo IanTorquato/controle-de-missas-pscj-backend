@@ -15,7 +15,7 @@ class Usuarios {
 
 			return response.status(201).json({ mensagem: 'Usuário criado com sucesso!' })
 		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar criar usuário.' })
+			return response.status(500).json({ erro: 'Falha no servidor ao tentar criar usuário.', detalheErro: error })
 		}
 	}
 
@@ -39,7 +39,7 @@ class Usuarios {
 
 			return response.status(404).json({ erro: 'E-mail inválido! Certifique-se de ter feito o Cadastro com este e-mail.' })
 		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar logar.' })
+			return response.status(500).json({ erro: 'Falha no servidor ao tentar logar.', detalheErro: error })
 		}
 	}
 
@@ -57,7 +57,7 @@ class Usuarios {
 
 			return response.json(usuariosSerializados)
 		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar usuários.' })
+			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar usuários.', detalheErro: error })
 		}
 	}
 
@@ -76,7 +76,7 @@ class Usuarios {
 
 			return response.json({ mensagem: 'Perfil atualizado com sucesso!' })
 		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar atualizar seu perfil.' })
+			return response.status(500).json({ erro: 'Falha no servidor ao tentar atualizar seu perfil.', detalheErro: error })
 		}
 	}
 
@@ -93,7 +93,9 @@ class Usuarios {
 
 			return response.json({ mensagem: 'Imagem atualizada com sucesso!' })
 		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar atualizar sua foto de perfil.' })
+			return response.status(500).json({
+				erro: 'Falha no servidor ao tentar atualizar sua foto de perfil.', detalheErro: error
+			})
 		}
 	}
 }
