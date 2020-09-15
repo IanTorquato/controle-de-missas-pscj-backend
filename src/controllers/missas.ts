@@ -156,7 +156,7 @@ class Missas {
 		} catch (error) {
 			await trx.rollback()
 
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar deletar missa.' })
+			return response.status(500).json({ erro: 'Falha no servidor ao tentar deletar missa.', detalheErro: error })
 		}
 	}
 }
