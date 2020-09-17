@@ -76,8 +76,8 @@ class MissaUsuario {
 		const trx = await knex.transaction()
 
 		try {
-			const { data } = request.body
-			const { quantidade_pessoas_remover, quantidade_pessoas_atual } = data
+			const { config } = request.body
+			const { quantidade_pessoas_remover, quantidade_pessoas_atual } = config.data
 			const { missa_id, usuario_id } = request.params
 
 			const pessoas_cadastradas = quantidade_pessoas_atual - quantidade_pessoas_remover
