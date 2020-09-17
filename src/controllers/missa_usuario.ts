@@ -6,7 +6,8 @@ class MissaUsuario {
 		const trx = await knex.transaction()
 
 		try {
-			const { missa_id, usuario_id, quantidade_pessoas, pessoas_cadastradas } = request.body
+			const { quantidade_pessoas, pessoasCadastradas } = request.body
+			const { missa_id, usuario_id } = request.params
 
 			const relacionamentoExistente = await trx('missa_usuario').where({ missa_id, usuario_id }).first()
 
@@ -16,10 +17,10 @@ class MissaUsuario {
 				})
 			}
 
-			const pessoasCadastradas = pessoas_cadastradas + quantidade_pessoas
+			const pessoas_cadastradas = pessoasCadastradas + quantidade_pessoas
 
 			await trx('missa_usuario').insert({ missa_id, usuario_id, quantidade_pessoas })
-			await trx('missas').where({ id: missa_id }).update({ pessoas_cadastradas: pessoasCadastradas })
+			await trx('missas').where({ id: missa_id }).update({ pessoas_cadastradas })
 
 			await trx.commit()
 
@@ -43,6 +44,44 @@ class MissaUsuario {
 		} catch (error) {
 			return response.status(500).json({
 				erro: 'Falha no servidor ao tentar listar o relacionamento missa-usuario.', detalheErro: error
+			})
+		}
+	}
+
+	async update(request: Request, response: Response) {
+		const trx = await knex.transaction()
+
+		try {
+			const { quantidade_pessoas_antes, quantidade_pessoas, pessoasCadastradas } = request.body
+			const { missa_id, usuario_id } = request.params
+
+			const pessoas_cadastradas = pessoasCadastradas - quantidade_pessoas_antes + quantidade_pessoas
+
+			await trx('missa_usuario').where({ missa_id, usuario_id }).update({ quantidade_pessoas })
+			await trx('missas').where({ id: missa_id }).update({ pessoas_cadastradas })
+
+			await trx.commit()
+
+			return response.json({ mensagem: 'Quantidade atualizada com sucesso!' })
+		} catch (error) {
+			await trx.rollback()
+
+			return response.status(500).json({
+				erro: 'Falha no servidor ao tentar atualizar a quantidade de pessoas na missa!', detalheErro: error
+			})
+		}
+	}
+
+	async delete(request: Request, response: Response) {
+		try {
+			const { missa_id, usuario_id } = request.params
+
+			await knex('missa_usuario').where({ missa_id, usuario_id }).delete()
+
+			return response.json({ mensagem: 'Você não está mais cadastrado nesta missa!' })
+		} catch (error) {
+			return response.status(500).json({
+				erro: 'Falha no servidor ao tentar deletar o relacionamento usuário/missa', detalheErro: error
 			})
 		}
 	}

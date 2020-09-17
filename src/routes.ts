@@ -39,7 +39,9 @@ routes.put('/usuarios/:id', usuarios.update)
 routes.put('/usuarios/foto/:id', upload.single('foto'), usuarios.updateFoto)
 
 // Missa_Usuário
-routes.post('/missa_usuario', missaUsuario.create)
+routes.post('/missa_usuario/:missa_id/:usuario_id', missaUsuario.create)
 routes.get('/missa_usuario', missaUsuario.index)
+routes.put('/missa_usuario/:missa_id/:usuario_id', missaUsuario.update)
+routes.delete('/missa_usuario/:missa_id/:usuario_id', missaUsuario.delete)
 
 export default routes
