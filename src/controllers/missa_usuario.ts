@@ -6,7 +6,7 @@ class MissaUsuario {
 		const trx = await knex.transaction()
 
 		try {
-			const { quantidade_pessoas, pessoasCadastradas } = request.body
+			const { quantidade_pessoas, quantidade_pessoas_atual } = request.body
 			const { missa_id, usuario_id } = request.params
 
 			const relacionamentoExistente = await trx('missa_usuario').where({ missa_id, usuario_id }).first()
@@ -17,7 +17,7 @@ class MissaUsuario {
 				})
 			}
 
-			const pessoas_cadastradas = pessoasCadastradas + quantidade_pessoas
+			const pessoas_cadastradas = quantidade_pessoas_atual + quantidade_pessoas
 
 			await trx('missa_usuario').insert({ missa_id, usuario_id, quantidade_pessoas })
 			await trx('missas').where({ id: missa_id }).update({ pessoas_cadastradas })
@@ -52,10 +52,10 @@ class MissaUsuario {
 		const trx = await knex.transaction()
 
 		try {
-			const { quantidade_pessoas_antes, quantidade_pessoas, pessoasCadastradas } = request.body
+			const { quantidade_pessoas_antes, quantidade_pessoas, quantidade_pessoas_atual } = request.body
 			const { missa_id, usuario_id } = request.params
 
-			const pessoas_cadastradas = pessoasCadastradas - quantidade_pessoas_antes + quantidade_pessoas
+			const pessoas_cadastradas = quantidade_pessoas_atual - quantidade_pessoas_antes + quantidade_pessoas
 
 			await trx('missa_usuario').where({ missa_id, usuario_id }).update({ quantidade_pessoas })
 			await trx('missas').where({ id: missa_id }).update({ pessoas_cadastradas })
@@ -73,10 +73,18 @@ class MissaUsuario {
 	}
 
 	async delete(request: Request, response: Response) {
+		const trx = await knex.transaction()
+
 		try {
+			const { quantidade_pessoas_remover, quantidade_pessoas_atual } = request.body
 			const { missa_id, usuario_id } = request.params
 
-			await knex('missa_usuario').where({ missa_id, usuario_id }).delete()
+			const quantidade_pessoas = quantidade_pessoas_atual - quantidade_pessoas_remover
+
+			await trx('missa_usuario').where({ missa_id, usuario_id }).first().delete()
+			await trx('missas').where({ id: missa_id }).update({ quantidade_pessoas })
+
+			await trx.commit()
 
 			return response.json({ mensagem: 'Você não está mais cadastrado nesta missa!' })
 		} catch (error) {
