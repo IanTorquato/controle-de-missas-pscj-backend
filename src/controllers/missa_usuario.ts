@@ -76,11 +76,9 @@ class MissaUsuario {
 		const trx = await knex.transaction()
 
 		try {
-			const { config } = request.body
-			const { quantidade_pessoas_remover, quantidade_pessoas_atual } = config.data
-			const { missa_id, usuario_id } = request.params
+			const { missa_id, usuario_id, quant_pessoas_remover, quant_pessoas_atual } = request.params
 
-			const pessoas_cadastradas = quantidade_pessoas_atual - quantidade_pessoas_remover
+			const pessoas_cadastradas = Number(quant_pessoas_atual) - Number(quant_pessoas_remover)
 
 			await trx('missa_usuario').where({ missa_id, usuario_id }).first().delete()
 			await trx('missas').where({ id: missa_id }).update({ pessoas_cadastradas })
