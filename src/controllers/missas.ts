@@ -48,7 +48,7 @@ class Missas {
 				const missas = ordenaPelaData(
 					await knex('missas')
 						.join('missa_usuario', 'missas.id', '=', 'missa_usuario.missa_id')
-						.select('missas.*', 'missa_usuario.id', 'missa_usuario.quantidade_pessoas')
+						.select('missas.*', 'missa_usuario.quantidade_pessoas')
 						.where({ usuario_id })
 				)
 
