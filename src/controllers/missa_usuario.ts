@@ -81,7 +81,7 @@ class MissaUsuario {
 
 			const quantidade_pessoas = quantidade_pessoas_atual - quantidade_pessoas_remover
 
-			await trx('missa_usuario').where({ missa_id, usuario_id }).first().delete()
+			await trx('missa_usuario').where({ missa_id, usuario_id }).delete()
 			await trx('missas').where({ id: missa_id }).update({ quantidade_pessoas })
 
 			await trx.commit()
