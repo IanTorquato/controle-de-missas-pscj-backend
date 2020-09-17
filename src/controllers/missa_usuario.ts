@@ -81,13 +81,15 @@ class MissaUsuario {
 
 			const quantidade_pessoas = quantidade_pessoas_atual - quantidade_pessoas_remover
 
-			await trx('missa_usuario').where({ missa_id, usuario_id }).delete()
+			await trx('missa_usuario').where({ missa_id, usuario_id }).first().delete()
 			await trx('missas').where({ id: missa_id }).update({ quantidade_pessoas })
 
 			await trx.commit()
 
 			return response.json({ mensagem: 'Você não está mais cadastrado nesta missa!' })
 		} catch (error) {
+			await trx.rollback()
+
 			return response.status(500).json({
 				erro: 'Falha no servidor ao tentar deletar o relacionamento usuário/missa', detalheErro: error
 			})
