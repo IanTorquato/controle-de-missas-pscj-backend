@@ -143,16 +143,12 @@ class Missas {
 		const trx = await knex.transaction()
 
 		try {
-			// Retorna 1 se conseguiu excluir e 0 se não conseguiu
-			const missaExcluida = await trx('missa_usuario').where({ missa_id: id }).delete()
+			await trx('missa_usuario').where({ missa_id: id }).delete()
+			const missaExcluida = await trx('missas').where({ id }).first().delete()
 
-			if (missaExcluida) {
-				await trx('missas').where({ id }).first().delete()
+			await trx.commit()
 
-				await trx.commit()
-
-				return response.json({ mensagem: 'Missa deletada com sucesso!' })
-			}
+			if (missaExcluida) { return response.json({ mensagem: 'Missa deletada com sucesso!' }) }
 
 			return response.status(404).json({ erro: 'A missa que você deseja excluir não existe!' })
 		} catch (error) {
