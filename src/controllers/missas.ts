@@ -29,28 +29,12 @@ class Missas {
 		const localId = Number(local_id)
 		const quantidadeMissas = Number(quantMissas)
 
-		function ordenaPelaData(missas: Missa[]) {
-			missas.sort((a: Missa, b: Missa) => {
-				if (a.data > b.data) { return 1 }
-
-				if (a.data < b.data) { return -1 }
-
-				// Ordena missas pela hora, já que o dia é o mesmo
-				else { return a.hora >= b.hora ? 1 : -1 }
-			})
-
-			return missas
-		}
-
 		// Filtrar missas de um usuário
 		if (usuario_id) {
 			try {
-				const missas = ordenaPelaData(
-					await knex('missas')
-						.join('missa_usuario', 'missas.id', '=', 'missa_usuario.missa_id')
-						.select('missas.*', 'missa_usuario.quantidade_pessoas')
-						.where({ usuario_id })
-				)
+				const missas =
+					await knex('missas').join('missa_usuario', 'missas.id', '=', 'missa_usuario.missa_id')
+						.select('missas.*', 'missa_usuario.quantidade_pessoas').where({ usuario_id }).orderBy(['data', 'hora'])
 
 				if (missas[0]) { return response.json(missas) }
 
@@ -67,7 +51,7 @@ class Missas {
 
 				if (!localExistente) { return response.status(404).json({ erro: 'Este local não está cadastrado!' }) }
 
-				const missasLocal = ordenaPelaData(await knex('missas').where({ local_id }))
+				const missasLocal = await knex('missas').where({ local_id }).orderBy(['data', 'hora'])
 
 				if (missasLocal[0]) { return response.json(missasLocal) }
 
@@ -83,7 +67,7 @@ class Missas {
 			try {
 				if (quantidadeMissas <= 0) { return response.status(400).json({ erro: 'Número de missas inválido!' }) }
 
-				const missas = ordenaPelaData(await knex('missas'))
+				const missas = await knex('missas').orderBy(['data', 'hora'])
 
 				if (missas[0]) { return response.json(missas.slice(0, quantidadeMissas)) }
 
