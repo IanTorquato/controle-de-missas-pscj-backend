@@ -96,7 +96,7 @@ class Missas {
 		// Listar todas as missas
 		else {
 			try {
-				const missas = ordenaPelaData(await knex('missas'))
+				const missas = await knex('missas').orderBy(['data', 'hora'])
 
 				if (missas[0]) {
 					return response.json(missas)
