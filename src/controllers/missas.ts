@@ -1,15 +1,6 @@
 import { Request, Response } from 'express'
 import knex from '../database/connection'
 
-interface Missa {
-	id: number
-	local_id: number
-	data: string
-	hora: string
-	max_pessoas: number
-	pessoas_cadastradas: number
-}
-
 class Missas {
 	async create(request: Request, response: Response) {
 		const { local_id, data, hora, max_pessoas } = request.body
@@ -36,9 +27,9 @@ class Missas {
 					await knex('missas').join('missa_usuario', 'missas.id', '=', 'missa_usuario.missa_id')
 						.select('missas.*', 'missa_usuario.quantidade_pessoas').where({ usuario_id }).orderBy(['data', 'hora'])
 
-				if (missas[0]) { return response.json(missas) }
+				if (!missas[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
 
-				return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
+				return response.json(missas)
 			} catch (error) {
 				return response.status(500).json({ erro: 'Erro na filtragem de missas pelo usuário!', detalheErro: error })
 			}
@@ -53,10 +44,9 @@ class Missas {
 
 				const missasLocal = await knex('missas').where({ local_id }).orderBy(['data', 'hora'])
 
-				if (missasLocal[0]) { return response.json(missasLocal) }
+				if (!missasLocal[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
 
-				return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
-
+				return response.json(missasLocal)
 			} catch (error) {
 				return response.status(500).json({ erro: 'Erro na filtragem de missas pelo Local!', detalheErro: error })
 			}
@@ -69,9 +59,9 @@ class Missas {
 
 				const missas = await knex('missas').orderBy(['data', 'hora'])
 
-				if (missas[0]) { return response.json(missas.slice(0, quantidadeMissas)) }
+				if (!missas[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
 
-				return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
+				return response.json(missas.slice(0, quantidadeMissas))
 			} catch (error) {
 				return response.status(500).json({ erro: 'Erro na filtragem de missas por Quantidade!', detalheErro: error })
 			}
@@ -82,11 +72,9 @@ class Missas {
 			try {
 				const missas = await knex('missas').orderBy(['data', 'hora'])
 
-				if (missas[0]) {
-					return response.json(missas)
-				}
+				if (!missas[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
 
-				return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
+				return response.json(missas)
 			} catch (error) {
 				return response.status(500).json({
 					erro: 'Falha no servidor ao tentar listar as missas cadastradas!', detalheErro: error
@@ -101,9 +89,9 @@ class Missas {
 		try {
 			const missa = await knex('missas').where({ id }).first()
 
-			if (missa) { return response.json(missa) }
+			if (!missa) { return response.status(404).json({ erro: 'Missa não encontrada!' }) }
 
-			return response.status(404).json({ erro: 'Missa não encontrada!' })
+			return response.json(missa)
 		} catch (error) {
 			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar uma única missa.', detalheErro: error })
 		}
@@ -132,9 +120,9 @@ class Missas {
 
 			await trx.commit()
 
-			if (missaExcluida) { return response.json({ mensagem: 'Missa deletada com sucesso!' }) }
+			if (!missaExcluida) { return response.status(404).json({ erro: 'A missa que você deseja excluir não existe!' }) }
 
-			return response.status(404).json({ erro: 'A missa que você deseja excluir não existe!' })
+			return response.json({ mensagem: 'Missa deletada com sucesso!' })
 		} catch (error) {
 			await trx.rollback()
 

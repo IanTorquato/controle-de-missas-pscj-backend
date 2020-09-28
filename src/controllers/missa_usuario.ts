@@ -38,9 +38,9 @@ class MissaUsuario {
 		try {
 			const missaUsuario = await knex('missa_usuario')
 
-			if (missaUsuario[0]) { return response.json(missaUsuario) }
+			if (!missaUsuario[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
 
-			return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' })
+			return response.json(missaUsuario)
 		} catch (error) {
 			return response.status(500).json({
 				erro: 'Falha no servidor ao tentar listar o relacionamento missa-usuario.', detalheErro: error

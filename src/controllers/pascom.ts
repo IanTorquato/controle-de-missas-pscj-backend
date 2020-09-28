@@ -27,11 +27,11 @@ class Pascom {
 
       const usuarioExistente = await knex('pascom').where({ nome }).first()
 
-      if (usuarioExistente && await bcrypt.compare(senha, usuarioExistente.senha)) {
-        return response.json(usuarioExistente)
+      if (!usuarioExistente && !(await bcrypt.compare(senha, usuarioExistente.senha))) {
+        return response.status(400).json({ erro: 'Falha ao fazer login! Por favor, tente novamente.' })
       }
 
-      return response.status(400).json({ erro: 'Falha ao fazer login! Por favor, tente novamente.' })
+      return response.json(usuarioExistente)
     } catch (error) {
       return response.status(500).json({ erro: 'Falha no servidor ao tentar logar!', detalheErro: error })
     }
