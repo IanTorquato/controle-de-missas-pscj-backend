@@ -26,9 +26,7 @@ class Usuarios {
 			const usuario = await knex('usuarios').where({ nome, email }).first()
 
 			if (usuario) {
-				if (!usuario.foto) { return response.json(usuario) }
-
-				return response.json({ ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}` })
+				return response.json({ ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.jpg` })
 			}
 
 			const emailExistente = await knex('usuarios').where({ email }).first().select('email')
@@ -50,9 +48,7 @@ class Usuarios {
 			if (!usuarios[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
 
 			const usuariosSerializados = usuarios.map(usuario => {
-				if (usuario.foto) { return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}` } }
-
-				return usuario
+				return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.jpg` }
 			})
 
 			return response.json(usuariosSerializados)
@@ -82,16 +78,12 @@ class Usuarios {
 
 	async updateFoto(request: Request, response: Response) {
 		try {
-			// Na primeira versão do app o usuário só poderá atualizar a imagem de perfil uma única vez
-			// Esta verificação terá de ficar no aplicativo mobile, pois não há uma maneira de excluir fotos ainda
-
 			const { id } = request.params
+			const { foto = 0 } = request.body
 
-			if (!request.file) { return response.status(404).json({ erro: 'Você precisa enviar um arquivo de imagem!' }) }
+			await knex('usuarios').where({ id }).update({ foto: +foto })
 
-			await knex('usuarios').where({ id }).update({ foto: request.file.filename })
-
-			return response.json({ mensagem: 'Imagem atualizada com sucesso!' })
+			return response.json({ mensagem: 'Imagem/Icon atualizada com sucesso!' })
 		} catch (error) {
 			return response.status(500).json({
 				erro: 'Falha no servidor ao tentar atualizar sua foto de perfil.', detalheErro: error
