@@ -60,7 +60,7 @@ class Usuarios {
 	async update(request: Request, response: Response) {
 		try {
 			const { id } = request.params
-			const { nome, email } = request.body
+			const { nome, email, foto = 0 } = request.body
 
 			const usuarioExistente = await knex('usuarios').where({ email }).first()
 
@@ -68,26 +68,11 @@ class Usuarios {
 				return response.status(400).json({ erro: 'Este e-mail já está em uso!' })
 			}
 
-			await knex('usuarios').where({ id }).update({ nome, email })
+			await knex('usuarios').where({ id }).update({ nome, email, foto: Number(foto) })
 
 			return response.json({ mensagem: 'Perfil atualizado com sucesso!' })
 		} catch (error) {
 			return response.status(500).json({ erro: 'Falha no servidor ao tentar atualizar seu perfil.', detalheErro: error })
-		}
-	}
-
-	async updateFoto(request: Request, response: Response) {
-		try {
-			const { id } = request.params
-			const { foto = 0 } = request.body
-
-			await knex('usuarios').where({ id }).update({ foto: +foto })
-
-			return response.json({ mensagem: 'Imagem/Icon atualizada com sucesso!' })
-		} catch (error) {
-			return response.status(500).json({
-				erro: 'Falha no servidor ao tentar atualizar sua foto de perfil.', detalheErro: error
-			})
 		}
 	}
 }

@@ -33,7 +33,6 @@ routes.post('/usuarios', usuarios.create)
 routes.post('/usuarios/login', usuarios.loginUsuario)
 routes.get('/usuarios', usuarios.index)
 routes.put('/usuarios/:id', usuarios.update)
-routes.put('/usuarios/foto/:id', usuarios.updateFoto)
 
 // Missa_Usuário
 routes.post('/missa_usuario/:missa_id/:usuario_id', missaUsuario.create)
