@@ -5,12 +5,14 @@ import Locais from './controllers/locais'
 import Missas from './controllers/missas'
 import Usuarios from './controllers/usuarios'
 import MissaUsuario from './controllers/missa_usuario'
+import Sessao from './controllers/sessao'
 
 const pascom = new Pascom()
 const locais = new Locais()
 const missas = new Missas()
 const usuarios = new Usuarios()
 const missaUsuario = new MissaUsuario()
+const sessao = new Sessao()
 
 const routes = express.Router()
 
@@ -39,5 +41,8 @@ routes.post('/missa_usuario/:missa_id/:usuario_id', missaUsuario.create)
 routes.get('/missa_usuario', missaUsuario.index)
 routes.put('/missa_usuario/:missa_id/:usuario_id', missaUsuario.update)
 routes.delete('/missa_usuario/:missa_id/:usuario_id/:quant_pessoas_remover/:quant_pessoas_atual', missaUsuario.delete)
+
+// Sessão
+routes.post('/sessao', sessao.create)
 
 export default routes
