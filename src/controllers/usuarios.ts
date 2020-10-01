@@ -19,28 +19,6 @@ class Usuarios {
 		}
 	}
 
-	async loginUsuario(request: Request, response: Response) {
-		try {
-			const { nome, email } = request.body
-
-			const usuario = await knex('usuarios').where({ nome, email }).first()
-
-			if (usuario) {
-				return response.json({ ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.jpg` })
-			}
-
-			const emailExistente = await knex('usuarios').where({ email }).first().select('email')
-
-			if (emailExistente) {
-				return response.status(400).json({ erro: 'Nome de usuário inválido! Confira a escrita e tente novamente.' })
-			}
-
-			return response.status(404).json({ erro: 'E-mail inválido! Certifique-se de ter feito o Cadastro com este e-mail.' })
-		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar logar.', detalheErro: error })
-		}
-	}
-
 	async index(request: Request, response: Response) {
 		try {
 			const usuarios = await knex('usuarios')
@@ -59,7 +37,7 @@ class Usuarios {
 
 	async update(request: Request, response: Response) {
 		try {
-			const { id } = request.params
+			const id = request.usuarioId
 			const { nome, email, foto = 0 } = request.body
 
 			const usuarioExistente = await knex('usuarios').where({ email }).first()

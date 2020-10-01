@@ -22,7 +22,7 @@ routes.post('/pascom', pascom.create)
 routes.post('/pascom/login', pascom.loginPascom)
 
 // Locais
-routes.get('/locais', verificaToken, locais.index)
+routes.get('/locais', locais.index)
 
 // Missas
 routes.post('/missas', missas.create)
@@ -33,15 +33,15 @@ routes.delete('/missas/:id', missas.delete)
 
 // Usuários
 routes.post('/usuarios', usuarios.create)
-routes.post('/usuarios/login', usuarios.loginUsuario)
 routes.get('/usuarios', usuarios.index)
-routes.put('/usuarios/:id', usuarios.update)
+routes.put('/usuarios', verificaToken, usuarios.update)
 
 // Missa_Usuário
-routes.post('/missa_usuario/:missa_id/:usuario_id', missaUsuario.create)
+routes.post('/missa_usuario/:missa_id/:usuario_id', verificaToken, missaUsuario.create)
 routes.get('/missa_usuario', missaUsuario.index)
-routes.put('/missa_usuario/:missa_id/:usuario_id', missaUsuario.update)
-routes.delete('/missa_usuario/:missa_id/:usuario_id/:quant_pessoas_remover/:quant_pessoas_atual', missaUsuario.delete)
+routes.put('/missa_usuario/:missa_id/:usuario_id', verificaToken, missaUsuario.update)
+routes.delete('/missa_usuario/:missa_id/:usuario_id/:quant_pessoas_remover/:quant_pessoas_atual', verificaToken,
+	missaUsuario.delete)
 
 // Sessão
 routes.post('/sessao', sessao.create)
