@@ -1,11 +1,12 @@
 import express from 'express'
 
+import verificaToken from './middlewares/usuarioJWT'
 import Pascom from './controllers/pascom'
 import Locais from './controllers/locais'
 import Missas from './controllers/missas'
 import Usuarios from './controllers/usuarios'
 import MissaUsuario from './controllers/missa_usuario'
-import Sessao from './controllers/sessao'
+import Sessao from './controllers/loginUsuario'
 
 const pascom = new Pascom()
 const locais = new Locais()
@@ -21,7 +22,7 @@ routes.post('/pascom', pascom.create)
 routes.post('/pascom/login', pascom.loginPascom)
 
 // Locais
-routes.get('/locais', locais.index)
+routes.get('/locais', verificaToken, locais.index)
 
 // Missas
 routes.post('/missas', missas.create)
