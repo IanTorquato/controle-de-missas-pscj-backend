@@ -1,48 +1,57 @@
 import express from 'express'
 
-import verificaToken from './middlewares/usuarioJWT'
+import verificaLoginUsuario from './middlewares/usuarioLoginJWT'
+import verificaLoginPascom from './middlewares/pascomLoginJWT'
+import verificaLogins from './middlewares/verificaLogins'
+
 import Pascom from './controllers/pascom'
 import Locais from './controllers/locais'
 import Missas from './controllers/missas'
 import Usuarios from './controllers/usuarios'
-import MissaUsuario from './controllers/missa_usuario'
-import Sessao from './controllers/loginUsuario'
+import MissaUsuario from './controllers/missaUsuario'
+import LoginUsuario from './controllers/loginUsuario'
+import LoginPascom from './controllers/loginPascom'
 
 const pascom = new Pascom()
 const locais = new Locais()
 const missas = new Missas()
 const usuarios = new Usuarios()
 const missaUsuario = new MissaUsuario()
-const sessao = new Sessao()
+const loginUsuario = new LoginUsuario()
+const loginPascom = new LoginPascom()
 
 const routes = express.Router()
 
-// Pascom
-routes.post('/pascom', pascom.create)
-routes.post('/pascom/login', pascom.loginPascom)
+// -------->> Rotas que não precisam de autenticação: <<--------
 
-// Locais
+// Criação de Usuário e Pascom
+routes.post('/usuarios', usuarios.create)
+routes.post('/pascom', pascom.create)
+
+// Logins
+routes.post('/login_usuario', loginUsuario.create)
+routes.post('/login_pascom', loginPascom.create)
+
+// Listagem de Locais
 routes.get('/locais', locais.index)
 
+// -------->> Rotas que precisam de autenticação: <<--------
+
 // Missas
-routes.post('/missas', missas.create)
-routes.get('/missas', missas.index)
-routes.put('/missas/:id', missas.update)
-routes.delete('/missas/:id', missas.delete)
+routes.post('/missas', verificaLoginPascom, verificaLogins, missas.create)
+routes.get('/missas', verificaLoginUsuario, verificaLoginPascom, verificaLogins, missas.index)
+routes.put('/missas/:id', verificaLoginPascom, verificaLogins, missas.update)
+routes.delete('/missas/:id', verificaLoginPascom, verificaLogins, missas.delete)
 
 // Usuários
-routes.post('/usuarios', usuarios.create)
-routes.get('/usuarios', usuarios.index)
-routes.put('/usuarios', verificaToken, usuarios.update)
+routes.get('/usuarios', verificaLoginPascom, verificaLogins, usuarios.index)
+routes.put('/usuarios', verificaLoginUsuario, verificaLogins, usuarios.update)
 
 // Missa_Usuário
-routes.post('/missa_usuario/:missa_id/:usuario_id', verificaToken, missaUsuario.create)
-routes.get('/missa_usuario', missaUsuario.index)
-routes.put('/missa_usuario/:missa_id/:usuario_id', verificaToken, missaUsuario.update)
-routes.delete('/missa_usuario/:missa_id/:usuario_id/:quant_pessoas_remover/:quant_pessoas_atual', verificaToken,
-	missaUsuario.delete)
-
-// Sessão
-routes.post('/sessao', sessao.create)
+routes.post('/missa_usuario/:missa_id/:usuario_id', verificaLoginUsuario, verificaLogins, missaUsuario.create)
+routes.get('/missa_usuario', verificaLoginPascom, verificaLogins, missaUsuario.index)
+routes.put('/missa_usuario/:missa_id/:usuario_id', verificaLoginUsuario, verificaLogins, missaUsuario.update)
+routes.delete('/missa_usuario/:missa_id/:usuario_id/:quant_pessoas_remover/:quant_pessoas_atual', verificaLoginUsuario,
+	verificaLogins, missaUsuario.delete)
 
 export default routes

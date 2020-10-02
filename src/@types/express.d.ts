@@ -1,5 +1,6 @@
 declare namespace Express {
 	export interface Request {
-		usuarioId: string
+		usuarioId: number | undefined
+		pascomId: number | undefined
 	}
 }

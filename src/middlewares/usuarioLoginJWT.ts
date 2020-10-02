@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import { verify } from 'jsonwebtoken'
 
-import { segredo } from '../config/usuarioJWT'
+import { segredoUsuario } from '../config/usuarioJWT'
 
-interface PromisifyJWT {
-	id: string
+interface verifyJWT {
+	id: number | undefined
 }
 
 export default async (request: Request, response: Response, next: NextFunction) => {
@@ -15,12 +15,12 @@ export default async (request: Request, response: Response, next: NextFunction) 
 	const [, token] = tokenUsuario.split(' ')
 
 	try {
-		const tokenDecodificado = verify(token, segredo) as PromisifyJWT
+		const tokenDecodificado = verify(token, segredoUsuario) as verifyJWT
 
 		request.usuarioId = tokenDecodificado.id
 
 		return next()
 	} catch (error) {
-		return response.status(401).json({ erro: 'Token inválido!' })
+		return next()
 	}
 }
