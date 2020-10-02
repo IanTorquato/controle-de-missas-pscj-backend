@@ -20,22 +20,6 @@ class Pascom {
       return response.status(500).json({ erro: 'Falha no servidor ao tentar criar o usuário da Pascom!', detalheErro: error })
     }
   }
-
-  async loginPascom(request: Request, response: Response) {
-    try {
-      const { nome, senha } = request.body
-
-      const usuarioExistente = await knex('pascom').where({ nome }).first()
-
-      if (!usuarioExistente && !(await bcrypt.compare(senha, usuarioExistente.senha))) {
-        return response.status(400).json({ erro: 'Falha ao fazer login! Por favor, tente novamente.' })
-      }
-
-      return response.json(usuarioExistente)
-    } catch (error) {
-      return response.status(500).json({ erro: 'Falha no servidor ao tentar logar!', detalheErro: error })
-    }
-  }
 }
 
 export default Pascom
