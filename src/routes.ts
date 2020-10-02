@@ -27,7 +27,6 @@ routes.get('/locais', locais.index)
 // Missas
 routes.post('/missas', missas.create)
 routes.get('/missas', missas.index)
-routes.get('/missas/:id', missas.show)
 routes.put('/missas/:id', missas.update)
 routes.delete('/missas/:id', missas.delete)
 

@@ -15,12 +15,12 @@ class Missas {
 	}
 
 	async index(request: Request, response: Response) {
-		const { local_id, quantMissas, usuario_id } = request.query
+		const { usuario_id, local_id, quantMissas, missa_id } = request.query
 
 		const localId = Number(local_id)
 		const quantidadeMissas = Number(quantMissas)
 
-		// Filtrar missas de um usuário
+		// Listar missas de um usuário
 		if (usuario_id) {
 			try {
 				const missas =
@@ -35,7 +35,7 @@ class Missas {
 			}
 		}
 
-		// Filtrar missas por Local
+		// Listar missas por Local
 		else if (localId) {
 			try {
 				const localExistente = await knex('locais').where({ id: local_id }).first()
@@ -52,7 +52,7 @@ class Missas {
 			}
 		}
 
-		// Filtrar missas por quantidade
+		// Listar missas por quantidade
 		else if (quantidadeMissas) {
 			try {
 				if (quantidadeMissas <= 0) { return response.status(400).json({ erro: 'Número de missas inválido!' }) }
@@ -64,6 +64,19 @@ class Missas {
 				return response.json(missas.slice(0, quantidadeMissas))
 			} catch (error) {
 				return response.status(500).json({ erro: 'Erro na filtragem de missas por Quantidade!', detalheErro: error })
+			}
+		}
+
+		// Listar uma única missa
+		else if (missa_id) {
+			try {
+				const missa = await knex('missas').where({ id: missa_id }).first()
+
+				if (!missa) { return response.status(404).json({ erro: 'Missa não encontrada!' }) }
+
+				return response.json(missa)
+			} catch (error) {
+				return response.status(500).json({ erro: 'Falha no servidor ao tentar listar uma única missa.', detalheErro: error })
 			}
 		}
 
@@ -80,20 +93,6 @@ class Missas {
 					erro: 'Falha no servidor ao tentar listar as missas cadastradas!', detalheErro: error
 				})
 			}
-		}
-	}
-
-	async show(request: Request, response: Response) {
-		const { id } = request.params
-
-		try {
-			const missa = await knex('missas').where({ id }).first()
-
-			if (!missa) { return response.status(404).json({ erro: 'Missa não encontrada!' }) }
-
-			return response.json(missa)
-		} catch (error) {
-			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar uma única missa.', detalheErro: error })
 		}
 	}
 
