@@ -37,12 +37,12 @@ class Usuarios {
 
 	async update(request: Request, response: Response) {
 		try {
-			const id = request.usuarioId
+			const id = Number(request.usuarioId)
 			const { nome, email, foto = 0 } = request.body
 
 			const usuarioExistente = await knex('usuarios').where({ email }).first()
 
-			if (usuarioExistente && usuarioExistente.id !== +id) {
+			if (usuarioExistente && usuarioExistente.id !== id) {
 				return response.status(400).json({ erro: 'Este e-mail já está em uso!' })
 			}
 
