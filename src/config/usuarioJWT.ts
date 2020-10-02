@@ -1,2 +1,2 @@
-export const segredo = process.env.SEGREDO_JWT || 'Segredo-naoFala-Segredo'
-export const expiresIn = '1d'
+export const segredoUsuario = process.env.SEGREDO_USUARIO_JWT || 'Segredo-USUARIO-Segredo'
+export const expiresIn = '1h'
