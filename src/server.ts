@@ -12,6 +12,10 @@ app.use(cors())
 
 app.use(routes)
 
-app.use('/uploads', express.static(path.resolve(__dirname, '..', '..', 'src', 'uploads')))
+const localUploads = process.env.PORT !== '3333'
+	? express.static(path.resolve(__dirname, '..', '..', 'src', 'uploads'))
+	: express.static(path.resolve(__dirname, 'uploads'))
 
-app.listen(process.env.PORT || 3333)
+app.use('/uploads', localUploads)
+
+app.listen(process.env.PORT)
