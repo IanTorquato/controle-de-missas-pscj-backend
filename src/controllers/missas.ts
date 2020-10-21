@@ -3,10 +3,10 @@ import knex from '../database/connection'
 
 class Missas {
 	async create(request: Request, response: Response) {
-		const { local_id, data, hora, max_pessoas } = request.body
+		const { nome, local_id, data, hora, max_pessoas } = request.body
 
 		try {
-			await knex('missas').insert({ local_id, data, hora, max_pessoas })
+			await knex('missas').insert({ nome, local_id, data, hora, max_pessoas })
 
 			return response.status(201).json({ mensagem: 'Missa criada com sucesso!' })
 		} catch (error) {
@@ -98,10 +98,10 @@ class Missas {
 
 	async update(request: Request, response: Response) {
 		const { id } = request.params
-		const { local_id, data, hora, max_pessoas } = request.body
+		const { nome, local_id, data, hora, max_pessoas } = request.body
 
 		try {
-			await knex('missas').where({ id }).update({ local_id, data, hora, max_pessoas })
+			await knex('missas').where({ id }).update({ nome, local_id, data, hora, max_pessoas })
 
 			return response.json({ mensagem: 'Missa atualizada com sucesso!' })
 		} catch (error) {
