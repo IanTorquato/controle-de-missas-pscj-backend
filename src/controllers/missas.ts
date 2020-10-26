@@ -15,7 +15,7 @@ class Missas {
 	}
 
 	async index(request: Request, response: Response) {
-		const { usuario_id, local_id, quantMissas, missa_id } = request.query
+		const { usuario_id, local_id, quantMissas, missa_id, missa_id_usuarios } = request.query
 
 		const localId = Number(local_id)
 		const quantidadeMissas = Number(quantMissas)
@@ -23,9 +23,8 @@ class Missas {
 		// Listar missas de um usuário
 		if (usuario_id) {
 			try {
-				const missas =
-					await knex('missas').join('missa_usuario', 'missas.id', '=', 'missa_usuario.missa_id')
-						.select('missas.*', 'missa_usuario.quantidade_pessoas').where({ usuario_id }).orderBy(['data', 'hora'])
+				const missas = await knex('missas').join('missa_usuario', 'missas.id', '=', 'missa_usuario.missa_id')
+					.select('missas.*', 'missa_usuario.quantidade_pessoas').where({ usuario_id }).orderBy(['data', 'hora'])
 
 				if (!missas[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
 
@@ -77,6 +76,33 @@ class Missas {
 				return response.json(missa)
 			} catch (error) {
 				return response.status(500).json({ erro: 'Falha no servidor ao tentar listar uma única missa.', detalheErro: error })
+			}
+		}
+
+		// Listar uma missa única e todos os seus usuários
+		if (missa_id_usuarios) {
+			const trx = await knex.transaction()
+
+			try {
+				const missa = await trx('missas').where({ id: missa_id_usuarios }).first().orderBy(['data', 'hora'])
+
+				if (!missa) { return response.status(404).json({ erro: 'Missa não encontrada.' }) }
+
+				const usuarios = await trx('usuarios')
+					.join('missa_usuario', 'usuarios.id', '=', 'missa_usuario.usuario_id')
+					.select('usuarios.nome', 'usuarios.foto', 'missa_usuario.quantidade_pessoas')
+
+				if (!usuarios[0]) { return response.status(404).json('Ainda não há nenhum usuário cadastrado nesta missa.') }
+
+				const usuariosSerializados = usuarios.map(usuario => {
+					return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.jpg` }
+				})
+
+				return response.json({ missa, usuarios: usuariosSerializados })
+			} catch (error) {
+				trx.rollback()
+				console.log(error)
+				return response.status(500).json({ erro: 'Erro na listagem de única missa e seus usuários!', detalheErro: error })
 			}
 		}
 
