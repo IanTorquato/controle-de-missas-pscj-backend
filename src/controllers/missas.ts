@@ -86,13 +86,21 @@ class Missas {
 			try {
 				const missa = await trx('missas').where({ id: missa_id_usuarios }).first().orderBy(['data', 'hora'])
 
-				if (!missa) { return response.status(404).json({ erro: 'Missa não encontrada.' }) }
+				if (!missa) {
+					trx.commit()
+					return response.status(404).json({ erro: 'Missa não encontrada.' })
+				}
 
 				const usuarios = await trx('usuarios')
 					.join('missa_usuario', 'usuarios.id', '=', 'missa_usuario.usuario_id')
-					.select('usuarios.nome', 'usuarios.foto', 'missa_usuario.quantidade_pessoas')
+					.andWhere('missa_usuario.missa_id', '=', `${missa_id_usuarios}`)
+					.select('usuarios.id', 'usuarios.nome', 'usuarios.foto', 'missa_usuario.quantidade_pessoas')
 
-				if (!usuarios[0]) { return response.status(404).json('Ainda não há nenhum usuário cadastrado nesta missa.') }
+				trx.commit()
+
+				if (!usuarios[0]) {
+					return response.json({ missa })
+				}
 
 				const usuariosSerializados = usuarios.map(usuario => {
 					return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.jpg` }
