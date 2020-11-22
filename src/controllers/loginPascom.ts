@@ -16,7 +16,7 @@ class LoginPascom {
 				return response.status(400).json({ erro: 'Falha ao fazer login! Por favor, tente novamente.' })
 			}
 
-			return response.json({ pascom, token: jwt.sign({ id: pascom.id }, segredoPascom, { expiresIn }) })
+			return response.json({ token: jwt.sign({ id: pascom.id }, segredoPascom, { expiresIn }) })
 		} catch (error) {
 			return response.status(500).json({ erro: 'Falha no servidor ao tentar criar uma sessão.', detalheErro: error })
 		}
