@@ -1,6 +1,7 @@
 import express from 'express'
 import path from 'path'
 import cors from 'cors'
+import 'dotenv/config'
 
 import routes from './routes'
 
@@ -18,4 +19,13 @@ const localUploads = process.env.PORT !== '3333'
 
 app.use('/uploads', localUploads)
 
-app.listen(process.env.PORT)
+console.debug(
+	process.env.PG_HOST, '<-->',
+	process.env.PG_USER, '<-->',
+	process.env.PG_PASSWORD, '<-->',
+	process.env.PG_DATABASE, '<-->',
+	process.env.PORT, '<-->',
+	process.env.URL_BANCO
+)
+
+app.listen(process.env.PORT, () => console.log(`--> Servidor rodando na porta ${process.env.PORT} <--`))
