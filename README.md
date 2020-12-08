@@ -4,7 +4,7 @@
 <p align="center">
   <img alt="Tamanho do repositório" src="https://img.shields.io/github/repo-size/IanTorquato/Projeto_PSCJ-Backend">
   
-  <a href="https://www.instagram.com/ian_1408/">
+  <a href="https://www.instagram.com/iantorquato">
     <img alt="Feito por Ian Torquato" src="https://img.shields.io/badge/made%20by-Ian%20Torquato-%2304D361">
   </a>
   
