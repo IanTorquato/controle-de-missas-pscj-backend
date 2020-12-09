@@ -2,13 +2,10 @@ import Knex from 'knex'
 
 export async function up(Knex: Knex) {
 	return Knex.schema.createTable('missas', table => {
-		table.increments('id').primary()
-		table.string('nome', 64).notNullable()
-		table.integer('local_id').notNullable().references('id').inTable('locais')
-		table.string('data').notNullable()
-		table.string('hora').notNullable()
-		table.integer('max_pessoas').notNullable()
-		table.integer('pessoas_cadastradas').notNullable().defaultTo(0)
+		table.increments()
+		table.string('nome').notNullable()
+		table.integer('local_id').notNullable().references('id').inTable('locais').onDelete('CASCADE').onUpdate('CASCADE')
+		table.dateTime('data_hora', { useTz: false, precision: 0 }).notNullable()
 	})
 }
 
