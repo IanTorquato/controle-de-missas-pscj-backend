@@ -6,6 +6,8 @@ export async function up(Knex: Knex) {
 		table.string('nome').notNullable()
 		table.integer('local_id').notNullable().references('id').inTable('locais').onDelete('CASCADE').onUpdate('CASCADE')
 		table.dateTime('data_hora', { useTz: false, precision: 0 }).notNullable()
+		table.integer('max_pessoas').notNullable()
+		table.integer('pessoas_cadastradas').notNullable().defaultTo(0)
 	})
 }
 

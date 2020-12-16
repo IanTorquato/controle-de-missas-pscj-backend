@@ -13,9 +13,10 @@ module.exports = {
 		directory: path.resolve(__dirname, 'src', 'database', 'seeds')
 	},
 	onUpdateTrigger: (table: CreateTableBuilder) => {
-		return `CREATE TRIGGER ${table}_updated_at
-    BEFORE UPDATE ON ${table}
-    FOR EACH ROW
-    EXECUTE PROCEDURE update_timestamp();`
+		return `
+			CREATE TRIGGER ${table}_updated_at
+			AFTER UPDATE ON ${table}
+			EXECUTE PROCEDURE update_timestamp();
+		`
 	}
 }

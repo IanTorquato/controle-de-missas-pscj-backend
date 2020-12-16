@@ -1,7 +1,8 @@
 import Knex from 'knex'
 
 export async function up(Knex: Knex) {
-	return Knex.raw(`CREATE OR REPLACE FUNCTION update_timestamp()
+	return Knex.raw(`
+		CREATE OR REPLACE FUNCTION update_timestamp()
 		RETURNS trigger AS $$
 		
 		BEGIN
@@ -9,8 +10,8 @@ export async function up(Knex: Knex) {
 			RETURN NEW;
 		END;
 		
-		$$ language 'plpgsql';`
-	)
+		$$ language 'plpgsql';
+	`)
 }
 
 export async function down(Knex: Knex) {
