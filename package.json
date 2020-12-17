@@ -19,7 +19,7 @@
 	},
 	"license": "ISC",
 	"main": "index.js",
-	"name": "server",
+	"name": "backend-pscj",
 	"scripts": {
 		"build": "tsc",
 		"dev": "tsnd --transpile-only --ignore-watch node_modules src/server.ts",
