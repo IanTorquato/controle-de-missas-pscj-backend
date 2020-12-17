@@ -38,20 +38,6 @@ export async function up(Knex: Knex) {
 	`))
 }
 
-//	BEGIN
-//	 	IF (TG_OP = 'DELETE') THEN
-//	  	INSERT INTO emp_audit SELECT 'D', now(), user, OLD.*;
-//	  	RETURN OLD;
-//	 	ELSIF (TG_OP = 'UPDATE') THEN
-//	  	INSERT INTO emp_audit SELECT 'U', now(), user, NEW.*;
-//	  	RETURN NEW;
-//	 	ELSIF (TG_OP = 'INSERT') THEN
-//	  	INSERT INTO emp_audit SELECT 'I', now(), user, NEW.*;
-//	  	RETURN NEW;
-//	 	END IF;
-//	 	RETURN NULL; -- result is ignored since this is an AFTER trigger
-//	END;
-
 export async function down(Knex: Knex) {
 	return Knex.schema.dropTable('missa_usuario')
 }
