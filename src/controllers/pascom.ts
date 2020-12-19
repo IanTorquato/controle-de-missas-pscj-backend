@@ -9,7 +9,7 @@ class Pascom {
 
       const usuarioExistente = await knex('pascom').where({ nome }).first()
 
-      if (usuarioExistente) { return response.status(404).json({ erro: 'Este nome já está em uso!' }) }
+      if (usuarioExistente) { return response.status(409).json({ erro: 'Este nome já está em uso!' }) }
 
       const senhaEncriptada = await bcrypt.hash(senha, 10)
 

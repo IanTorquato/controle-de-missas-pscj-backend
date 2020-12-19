@@ -23,7 +23,7 @@ class Usuarios {
 		try {
 			const usuarios = await knex('usuarios')
 
-			if (!usuarios[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
+			if (!usuarios[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum usuário para ser listado.' }) }
 
 			const usuariosSerializados = usuarios.map(usuario => {
 				return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.jpg` }
@@ -46,7 +46,7 @@ class Usuarios {
 				return response.status(400).json({ erro: 'Este e-mail já está em uso!' })
 			}
 
-			await knex('usuarios').where({ id }).update({ nome, email, foto: Number(foto) })
+			await knex('usuarios').where({ id }).update({ nome, email, foto })
 
 			return response.json({ mensagem: 'Perfil atualizado com sucesso!' })
 		} catch (error) {
