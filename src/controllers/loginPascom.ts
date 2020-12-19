@@ -12,6 +12,8 @@ class LoginPascom {
 
 			const pascom = await knex('pascom').where({ nome }).first()
 
+			if (!pascom) { return response.status(404).json({ erro: 'Usuário Pascom não encontrado.' }) }
+
 			if (!pascom || !(await bcrypt.compare(senha, pascom.senha))) {
 				return response.status(400).json({ erro: 'Falha ao fazer login! Por favor, tente novamente.' })
 			}

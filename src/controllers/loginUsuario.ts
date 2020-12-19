@@ -11,6 +11,8 @@ class LoginUsuario {
 
 			const usuario = await knex('usuarios').where({ email }).first()
 
+			if (!usuario) { return response.status(404).json({ erro: 'Usuário não encontrado.' }) }
+
 			if (!usuario || usuario.nome !== nome) {
 				return response.status(401).json({ erro: 'Falha ao fazer login! Por favor, tente novamente.' })
 			}
