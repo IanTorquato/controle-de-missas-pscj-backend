@@ -4,10 +4,10 @@ import knex from '../database/connection'
 
 class Missas {
 	async create(request: Request, response: Response) {
-		const { nome, local_id, data, hora, max_pessoas } = request.body
+		const { nome, local_id, data_hora, max_pessoas } = request.body
 
 		try {
-			await knex('missas').insert({ nome, local_id, data, hora, max_pessoas })
+			await knex('missas').insert({ nome, local_id, data_hora, max_pessoas })
 
 			return response.status(201).json({ mensagem: 'Missa criada com sucesso!' })
 		} catch (error) {
@@ -118,7 +118,7 @@ class Missas {
 		// Listar todas as missas
 		else {
 			try {
-				const missas = await knex('missas').orderBy(['data', 'hora'])
+				const missas = await knex('missas').orderBy(['data_hora'])
 
 				if (!missas[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
 
@@ -133,10 +133,10 @@ class Missas {
 
 	async update(request: Request, response: Response) {
 		const { id } = request.params
-		const { nome, local_id, data, hora, max_pessoas } = request.body
+		const { nome, local_id, data_hora, max_pessoas } = request.body
 
 		try {
-			await knex('missas').where({ id }).update({ nome, local_id, data, hora, max_pessoas })
+			await knex('missas').where({ id }).update({ nome, local_id, data_hora, max_pessoas })
 
 			return response.json({ mensagem: 'Missa atualizada com sucesso!' })
 		} catch (error) {
@@ -146,20 +146,14 @@ class Missas {
 
 	async delete(request: Request, response: Response) {
 		const { id } = request.params
-		const trx = await knex.transaction()
 
 		try {
-			await trx('missa_usuario').where({ missa_id: id }).delete()
-			const missaExcluida = await trx('missas').where({ id }).first().delete()
-
-			await trx.commit()
+			const missaExcluida = await knex('missas').where({ id }).first().delete()
 
 			if (!missaExcluida) { return response.status(404).json({ erro: 'A missa que você deseja excluir não existe!' }) }
 
 			return response.json({ mensagem: 'Missa deletada com sucesso!' })
 		} catch (error) {
-			await trx.rollback()
-
 			return response.status(500).json({ erro: 'Falha no servidor ao tentar deletar missa.', detalheErro: error })
 		}
 	}
