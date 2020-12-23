@@ -57,7 +57,7 @@ class Missas {
 			try {
 				if (quantidadeMissas <= 0) { return response.status(400).json({ erro: 'Número de missas inválido!' }) }
 
-				const missas = await knex('missas').orderBy(['data', 'hora'])
+				const missas = await knex('missas').orderBy(['data_hora'])
 
 				if (!missas[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
 
@@ -85,7 +85,7 @@ class Missas {
 			const trx = await knex.transaction()
 
 			try {
-				const missa = await trx('missas').where({ id: missa_id_usuarios }).first().orderBy(['data', 'hora'])
+				const missa = await trx('missas').where({ id: missa_id_usuarios }).first().orderBy(['data_hora'])
 
 				if (!missa) {
 					trx.commit()
