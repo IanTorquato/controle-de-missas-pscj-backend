@@ -27,7 +27,7 @@ class Missas {
 				const missas = await knex('missas').join('missa_usuario', 'missas.id', '=', 'missa_usuario.missa_id')
 					.select('missas.*', 'missa_usuario.quantidade_pessoas').where({ usuario_id }).orderBy(['data', 'hora'])
 
-				if (!missas[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
+				if (!missas[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
 
 				return response.json(missas)
 			} catch (error) {
@@ -44,7 +44,7 @@ class Missas {
 
 				const missasLocal = await knex('missas').where({ local_id }).orderBy(['data', 'hora'])
 
-				if (!missasLocal[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
+				if (!missasLocal[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
 
 				return response.json(missasLocal)
 			} catch (error) {
@@ -59,7 +59,7 @@ class Missas {
 
 				const missas = await knex('missas').orderBy(['data_hora'])
 
-				if (!missas[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
+				if (!missas[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
 
 				return response.json(missas.slice(0, quantidadeMissas))
 			} catch (error) {
@@ -104,7 +104,7 @@ class Missas {
 				}
 
 				const usuariosSerializados = usuarios.map(usuario => {
-					return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.jpg` }
+					return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.png` }
 				})
 
 				return response.json({ missa, usuarios: usuariosSerializados })
@@ -120,7 +120,7 @@ class Missas {
 			try {
 				const missas = await knex('missas').orderBy(['data_hora'])
 
-				if (!missas[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum dado para ser listado.' }) }
+				if (!missas[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
 
 				return response.json(missas)
 			} catch (error) {
