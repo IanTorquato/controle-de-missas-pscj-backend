@@ -26,7 +26,7 @@ class Usuarios {
 			if (!usuarios[0]) { return response.status(404).json({ erro: 'Ainda não há nenhum usuário para ser listado.' }) }
 
 			const usuariosSerializados = usuarios.map(usuario => {
-				return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.jpg` }
+				return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.png` }
 			})
 
 			return response.json(usuariosSerializados)
