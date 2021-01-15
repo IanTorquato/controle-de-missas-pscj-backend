@@ -18,7 +18,7 @@ class LoginUsuario {
 			}
 
 			return response.json({
-				usuario: { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.jpg` },
+				usuario: { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.png` },
 				token: jwt.sign({ id: usuario.id }, segredoUsuario, { expiresIn })
 			})
 		} catch (error) {
