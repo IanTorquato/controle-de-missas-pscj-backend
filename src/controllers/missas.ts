@@ -1,6 +1,145 @@
 import { Request, Response } from 'express'
 
 import knex from '../database/connection'
+import { urlImagemLocal } from '../utils/urlImagemLocal'
+
+interface FuncoesListarMissas {
+	usuario_id(usuario_id: number, response: Response): Promise<void>
+	local_id(local_id: number, response: Response): Promise<void>
+	quantidade_missas(quantidadeMissas: number, response: Response): Promise<void>
+	missa_id(missa_id: number, response: Response): Promise<void>
+	missa_id_usuarios(missa_id_usuarios: number, response: Response): Promise<void>
+}
+
+async function listarMissas(response: Response) {
+	try {
+		const missas = await knex('missas').join('locais', 'missas.local_id', '=', 'locais.id')
+			.select('missas.*', 'locais.nome as local_nome', 'locais.imagem as local_url').orderBy(['data_hora'])
+
+		if (!missas[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
+
+		return response.json(urlImagemLocal(missas))
+	} catch (error) {
+		return response.status(500).json({
+			erro: 'Falha no servidor ao tentar listar as missas cadastradas!', detalheErro: error
+		})
+	}
+}
+
+const listagensTabelaMissas = {
+	// listar missas em que um usuário está cadastrado
+	async usuario_id(usuario_id: number, response: Response) {
+		console.log('usuario_id')
+
+		try {
+			const missas = await knex('missas')
+				.join('missa_usuario', 'missas.id', '=', 'missa_usuario.missa_id')
+				.join('locais', 'missas.local_id', '=', 'locais.id')
+				.select('missas.*', 'locais.nome as local_nome', 'locais.imagem as local_url', 'missa_usuario.quantidade_pessoas')
+				.where({ usuario_id }).orderBy(['data_hora'])
+
+			if (!missas[0]) { return response.status(404).json({ erro: 'Ish! Você não está cadastrado em nenhuma missa...' }) }
+
+			return response.json(urlImagemLocal(missas))
+		} catch (error) {
+			return response.status(500).json({ erro: 'Erro na filtragem de missas pelo usuário!', detalheErro: error })
+		}
+	},
+	// listar missas por local
+	async local_id(local_id: number, response: Response) {
+		console.log('local_id')
+
+		try {
+			const localExistente = await knex('locais').where({ id: local_id }).first()
+
+			if (!localExistente) { return response.status(404).json({ erro: 'Este local não está cadastrado!' }) }
+
+			const missasLocal = await knex('missas')
+				.join('locais', 'missas.local_id', '=', 'locais.id')
+				.select('missas.*', 'locais.nome as local_nome', 'locais.imagem as local_url')
+				.where({ local_id }).orderBy(['data_hora'])
+
+			if (!missasLocal[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
+
+			return response.json(urlImagemLocal(missasLocal))
+		} catch (error) {
+			return response.status(500).json({ erro: 'Erro na filtragem de missas pelo Local!', detalheErro: error })
+		}
+	},
+	// listar missas por quantidade
+	async quantidade_missas(quantidadeMissas: number, response: Response) {
+		console.log('quantMissas')
+
+		try {
+			if (quantidadeMissas <= 0) { return response.status(400).json({ erro: 'Número de missas inválido!' }) }
+
+			const missas = await knex('missas').join('locais', 'missas.local_id', '=', 'locais.id')
+				.select('missas.*', 'locais.nome as local_nome', 'locais.imagem as local_url').orderBy(['data_hora'])
+
+			if (!missas[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
+
+			return response.json(urlImagemLocal(missas.slice(0, quantidadeMissas)))
+		} catch (error) {
+			return response.status(500).json({ erro: 'Erro na filtragem de missas por Quantidade!', detalheErro: error })
+		}
+	},
+	// listarUmaMissa
+	async missa_id(missa_id: number, response: Response) {
+		console.log('missa_id')
+
+		try {
+			const missa = await knex('missas').join('locais', 'missas.local_id', '=', 'locais.id')
+				.select('missas.*', 'locais.nome as local_nome', 'locais.imagem as local_url')
+				.where('missas.id', '=', `${missa_id}`).first()
+
+			if (!missa) { return response.status(404).json({ erro: 'Missa não encontrada!' }) }
+
+			return response.json(urlImagemLocal([missa]))
+		} catch (error) {
+			return response.status(500).json({ erro: 'Falha no servidor ao tentar listar uma única missa.', detalheErro: error })
+		}
+	},
+	// listar única missa com todos os usuário cadastrados
+	async missa_id_usuarios(missa_id_usuarios: number, response: Response) {
+		console.log('missa_id_usuarios')
+
+		const trx = await knex.transaction()
+
+		try {
+			const missa = await trx('missas').join('locais', 'missas.local_id', '=', 'locais.id')
+				.select('missas.*', 'locais.nome as local_nome', 'locais.imagem as local_url')
+				.where('missas.id', '=', `${missa_id_usuarios}`).first()
+
+			if (!missa) {
+				trx.commit()
+				return response.status(404).json({ erro: 'Missa não encontrada.' })
+			}
+
+			const missaLocalUrl = urlImagemLocal([missa])
+
+			const usuarios = await trx('usuarios')
+				.join('missa_usuario', 'usuarios.id', '=', 'missa_usuario.usuario_id')
+				.andWhere('missa_usuario.missa_id', '=', `${missa_id_usuarios}`)
+				.select('usuarios.id', 'usuarios.nome', 'usuarios.foto', 'missa_usuario.quantidade_pessoas')
+
+			trx.commit()
+
+			if (!usuarios[0]) {
+				return response.json({ missaLocalUrl })
+			}
+
+			const usuariosSerializados = usuarios.map(usuario => {
+				return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.png` }
+			})
+
+			return response.json({ missaLocalUrl, usuarios: usuariosSerializados })
+		} catch (error) {
+			trx.rollback()
+			console.log(error)
+			return response.status(500).json({ erro: 'Erro na listagem de única missa e seus usuários!', detalheErro: error })
+		}
+	}
+}
 
 class Missas {
 	async create(request: Request, response: Response) {
@@ -16,119 +155,22 @@ class Missas {
 	}
 
 	async index(request: Request, response: Response) {
-		const { usuario_id, local_id, quantMissas, missa_id, missa_id_usuarios } = request.query
+		const chaveParametro = Object.keys(request.query)[0] as keyof FuncoesListarMissas
+		const valorParametro = Object.values(request.query)[0]
 
-		const localId = Number(local_id)
-		const quantidadeMissas = Number(quantMissas)
+		if (chaveParametro) {
+			if (valorParametro && Number.isInteger(+valorParametro) && +valorParametro > 0) {
+				const listarMissasFiltradas = listagensTabelaMissas[chaveParametro]
 
-		// Listar missas de um usuário
-		if (usuario_id) {
-			try {
-				const missas = await knex('missas').join('missa_usuario', 'missas.id', '=', 'missa_usuario.missa_id')
-					.select('missas.*', 'missa_usuario.quantidade_pessoas').where({ usuario_id }).orderBy(['data', 'hora'])
-
-				if (!missas[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
-
-				return response.json(missas)
-			} catch (error) {
-				return response.status(500).json({ erro: 'Erro na filtragem de missas pelo usuário!', detalheErro: error })
+				return !!listarMissasFiltradas ? listarMissasFiltradas(+valorParametro, response) : (
+					response.status(400).json({ erro: `A listagem pelo parâmetro '${chaveParametro}' não existente.` })
+				)
 			}
+
+			return response.status(400).json({ erro: `O valor passado está vazio ou não é um número natual.` })
 		}
 
-		// Listar missas por Local
-		else if (localId) {
-			try {
-				const localExistente = await knex('locais').where({ id: local_id }).first()
-
-				if (!localExistente) { return response.status(404).json({ erro: 'Este local não está cadastrado!' }) }
-
-				const missasLocal = await knex('missas').where({ local_id }).orderBy(['data', 'hora'])
-
-				if (!missasLocal[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
-
-				return response.json(missasLocal)
-			} catch (error) {
-				return response.status(500).json({ erro: 'Erro na filtragem de missas pelo Local!', detalheErro: error })
-			}
-		}
-
-		// Listar missas por quantidade
-		else if (quantidadeMissas) {
-			try {
-				if (quantidadeMissas <= 0) { return response.status(400).json({ erro: 'Número de missas inválido!' }) }
-
-				const missas = await knex('missas').orderBy(['data_hora'])
-
-				if (!missas[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
-
-				return response.json(missas.slice(0, quantidadeMissas))
-			} catch (error) {
-				return response.status(500).json({ erro: 'Erro na filtragem de missas por Quantidade!', detalheErro: error })
-			}
-		}
-
-		// Listar uma única missa
-		else if (missa_id) {
-			try {
-				const missa = await knex('missas').where({ id: missa_id }).first()
-
-				if (!missa) { return response.status(404).json({ erro: 'Missa não encontrada!' }) }
-
-				return response.json(missa)
-			} catch (error) {
-				return response.status(500).json({ erro: 'Falha no servidor ao tentar listar uma única missa.', detalheErro: error })
-			}
-		}
-
-		// Listar uma missa única e todos os seus usuários
-		if (missa_id_usuarios) {
-			const trx = await knex.transaction()
-
-			try {
-				const missa = await trx('missas').where({ id: missa_id_usuarios }).first().orderBy(['data_hora'])
-
-				if (!missa) {
-					trx.commit()
-					return response.status(404).json({ erro: 'Missa não encontrada.' })
-				}
-
-				const usuarios = await trx('usuarios')
-					.join('missa_usuario', 'usuarios.id', '=', 'missa_usuario.usuario_id')
-					.andWhere('missa_usuario.missa_id', '=', `${missa_id_usuarios}`)
-					.select('usuarios.id', 'usuarios.nome', 'usuarios.foto', 'missa_usuario.quantidade_pessoas')
-
-				trx.commit()
-
-				if (!usuarios[0]) {
-					return response.json({ missa })
-				}
-
-				const usuariosSerializados = usuarios.map(usuario => {
-					return { ...usuario, foto: `${process.env.URL_BANCO}/uploads/fotosPerfis/${usuario.foto}.png` }
-				})
-
-				return response.json({ missa, usuarios: usuariosSerializados })
-			} catch (error) {
-				trx.rollback()
-				console.log(error)
-				return response.status(500).json({ erro: 'Erro na listagem de única missa e seus usuários!', detalheErro: error })
-			}
-		}
-
-		// Listar todas as missas
-		else {
-			try {
-				const missas = await knex('missas').orderBy(['data_hora'])
-
-				if (!missas[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
-
-				return response.json(missas)
-			} catch (error) {
-				return response.status(500).json({
-					erro: 'Falha no servidor ao tentar listar as missas cadastradas!', detalheErro: error
-				})
-			}
-		}
+		listarMissas(response)
 	}
 
 	async update(request: Request, response: Response) {
