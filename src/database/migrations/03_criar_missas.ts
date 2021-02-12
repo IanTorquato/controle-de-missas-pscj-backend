@@ -5,7 +5,7 @@ export async function up(Knex: Knex) {
 		table.increments()
 		table.string('nome').notNullable()
 		table.integer('local_id').notNullable().references('id').inTable('locais').onDelete('CASCADE').onUpdate('CASCADE')
-		table.timestamp('data_hora', { precision: 0 }).notNullable()
+		table.timestamp('data_hora', { precision: 0, useTz: true }).notNullable()
 		table.integer('max_pessoas').notNullable()
 		table.integer('pessoas_cadastradas').notNullable().defaultTo(0)
 	})
