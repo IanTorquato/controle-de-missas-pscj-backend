@@ -33,7 +33,9 @@ export async function up(Knex: Knex) {
 		table.integer('usuario_id').notNullable().references('id').inTable('usuarios').onDelete('CASCADE')
 		table.integer('quantidade_pessoas').notNullable()
 	}).then(() => Knex.raw(`
-		CREATE TRIGGER missas_pessoas_cadastradas AFTER INSERT OR UPDATE OR DELETE ON missa_usuario FOR EACH ROW
+		CREATE TRIGGER missas_pessoas_cadastradas
+		AFTER INSERT OR UPDATE OR DELETE ON missa_usuario
+		FOR EACH ROW
 		EXECUTE PROCEDURE total_pessoas_cadastradas();
 	`))
 }
