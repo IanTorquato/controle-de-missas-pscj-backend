@@ -12,7 +12,7 @@ const localUploads = process.env.PORT !== '3333'
 	: express.static(path.resolve(__dirname, 'uploads'))
 
 app.use(express.json())
-app.use(cors({ origin: process.env.PG_HOST === 'localhost' ? undefined : process.env.URL_BANCO }))
+app.use(cors({ origin: process.env.PG_HOST === 'localhost' ? undefined : 'https://pascom-missas-gravatal.netlify.app' }))
 app.use(routes)
 app.use('/uploads', localUploads)
 
