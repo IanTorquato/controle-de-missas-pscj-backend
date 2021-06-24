@@ -17,7 +17,7 @@ async function listarMissas(response: Response) {
 			.select('missas.*', 'locais.nome as local_nome', 'locais.imagem as local_url').orderBy(['data_hora'])
 
 		if (!missas[0]) { return response.status(404).json({ erro: 'Ish! Não há missas cadastradas ainda...' }) }
-		console.log(urlImagemLocal(missas))
+
 		return response.json(urlImagemLocal(missas))
 	} catch (error) {
 		return response.status(500).json({

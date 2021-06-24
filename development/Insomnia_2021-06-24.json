@@ -1,0 +1,638 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2021-06-24T23:02:31.071Z",
+  "__export_source": "insomnia.desktop.app:v2021.3.0",
+  "resources": [
+    {
+      "_id": "req_16586972eaff4686822d050987e0272a",
+      "parentId": "fld_b2b71afbe8ef4c93984f55f33e0f54f6",
+      "modified": 1624575680410,
+      "created": 1601561336570,
+      "url": "{{ _.base_url }}/login_usuario",
+      "name": "Logar (Usuario)",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"Ian Torquato2\",\n\t\"email\": \"iantorquato2@gmail.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_6a6e215125f240c99d0e9f418cb31852"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1601561336570,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_b2b71afbe8ef4c93984f55f33e0f54f6",
+      "parentId": "wrk_af26b967fa534c6a80450bf6d194da0e",
+      "modified": 1601670189708,
+      "created": 1601561313738,
+      "name": "Login",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1597774031795,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_af26b967fa534c6a80450bf6d194da0e",
+      "parentId": null,
+      "modified": 1593210295619,
+      "created": 1593210295619,
+      "name": "Projeto PSCJ",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_2ba6ab5ff7414a5ea0c53cb0d563957b",
+      "parentId": "fld_b2b71afbe8ef4c93984f55f33e0f54f6",
+      "modified": 1624575540350,
+      "created": 1601664249320,
+      "url": "{{ _.base_url }}/login_pascom",
+      "name": "Logar (Pascom)",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"Pascom PSCJ\",\n\t\"senha\": \"Pascom-2121-PSCJ\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_6a6e215125f240c99d0e9f418cb31852"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1601220713225,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_498794c89166475789119fc13d65b0e2",
+      "parentId": "fld_1b42bdf9ca10458da4c40693d6b6f667",
+      "modified": 1624575411602,
+      "created": 1597774106082,
+      "url": "{{ _.base_url }}/pascom",
+      "name": "Criar",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"Pascom PSCJ\",\n\t\"senha\": \"Pascom-2121-PSCJ\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_427a00a221314f8e98394fc4124c5693",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1593210343755,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_1b42bdf9ca10458da4c40693d6b6f667",
+      "parentId": "wrk_af26b967fa534c6a80450bf6d194da0e",
+      "modified": 1597774031745,
+      "created": 1597774031745,
+      "name": "Pascom",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1597774031745,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_13c40e28309a4ae6be783c3dcd812ecf",
+      "parentId": "fld_33c7a394c6724f129f54b56fbb20765e",
+      "modified": 1624575556140,
+      "created": 1594315314738,
+      "url": "{{ _.base_url }}/usuarios",
+      "name": "Criar",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"Ian Torquato2\",\n\t\"email\": \"iantorquato2@gmail.com\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_34dd98823e3d4854a1d7599ac2c9e03b",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1593210343480,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_33c7a394c6724f129f54b56fbb20765e",
+      "parentId": "wrk_af26b967fa534c6a80450bf6d194da0e",
+      "modified": 1597331601449,
+      "created": 1597331601449,
+      "name": "Usuários",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1597331601449,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_b90cf3aaf0e44c24b5ea88dae81447d8",
+      "parentId": "fld_33c7a394c6724f129f54b56fbb20765e",
+      "modified": 1624575670688,
+      "created": 1594315325245,
+      "url": "{{ _.base_url }}/usuarios",
+      "name": "Listar",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ token_pascom }}"
+      },
+      "metaSortKey": -1593210343430,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_dcda05f6d43d4030a5bce0fb791f5ff5",
+      "parentId": "fld_33c7a394c6724f129f54b56fbb20765e",
+      "modified": 1624575434242,
+      "created": 1597331554730,
+      "url": "{{ _.base_url }}/usuarios",
+      "name": "Editar",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"Ian Torquato2\",\n\t\"email\": \"iantorquato2@gmail.com\",\n\t\"foto\": 0\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_8561c678964c4225b0c4c9e1b4784adf",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ token_usuario }}"
+      },
+      "metaSortKey": -1593210343380,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_b9d658966ea84b4db4cf44c73a101516",
+      "parentId": "fld_e96e271272f34d6f9aa897389cd2ca0c",
+      "modified": 1624575441305,
+      "created": 1594314621092,
+      "url": "{{ _.base_url }}/missas",
+      "name": "Criar",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"Solenidade do Natal do Senhor\",\n\t\"local_id\": 1,\n\t\"data_hora\": \"2021-12-25T20:00\",\n\t\"max_pessoas\": 100\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_34dd98823e3d4854a1d7599ac2c9e03b",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ token_pascom }}"
+      },
+      "metaSortKey": -1593210343505,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_e96e271272f34d6f9aa897389cd2ca0c",
+      "parentId": "wrk_af26b967fa534c6a80450bf6d194da0e",
+      "modified": 1597331594335,
+      "created": 1597331594335,
+      "name": "Missas",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1597331594335,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_1943b55bfdcd448584f49d01d9fb6a9d",
+      "parentId": "fld_e96e271272f34d6f9aa897389cd2ca0c",
+      "modified": 1624575445784,
+      "created": 1593210343455,
+      "url": "{{ _.base_url }}/missas",
+      "name": "Listar (A)",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "description": "",
+          "disabled": true,
+          "id": "pair_559ec04ae19e4653a507fdadea7b6aff",
+          "name": "local_id",
+          "value": "1"
+        },
+        {
+          "description": "",
+          "disabled": true,
+          "id": "pair_45ea1886d3444f50a8353ea6a0170104",
+          "name": "quantidade_missas",
+          "value": "3"
+        },
+        {
+          "description": "",
+          "disabled": true,
+          "id": "pair_9ef3ec378f0f4cd890b8e225fdc0a938",
+          "name": "usuario_id",
+          "value": "1"
+        },
+        {
+          "name": "missa_id",
+          "value": "1",
+          "description": "",
+          "id": "pair_a8bcf5b551d54cc0903ead8e0ffc2dfe",
+          "disabled": true
+        },
+        {
+          "name": "missa_id_usuarios",
+          "value": "3",
+          "description": "",
+          "id": "pair_26dd35c27d0c45119aec38b6102de7b0",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ token_pascom }}"
+      },
+      "metaSortKey": -1593210343455,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_1562ec0620164cbfb606439a885ad18b",
+      "parentId": "fld_e96e271272f34d6f9aa897389cd2ca0c",
+      "modified": 1624575450223,
+      "created": 1594666645747,
+      "url": "{{ _.base_url }}/missas/1",
+      "name": "Editar",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"nome\": \"Solenidade do Natal do Senhor\",\n\t\"local_id\": 1,\n\t\"data_hora\": \"2021-12-25T20:00\",\n\t\"max_pessoas\": 100\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_8561c678964c4225b0c4c9e1b4784adf",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ token_pascom }}"
+      },
+      "metaSortKey": -1593210343355,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_6c6ac895f40149069c2c4666aa1e8ef4",
+      "parentId": "fld_e96e271272f34d6f9aa897389cd2ca0c",
+      "modified": 1624575454505,
+      "created": 1594663696635,
+      "url": "{{ _.base_url }}/missas/1",
+      "name": "Deletar",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ token_pascom }}"
+      },
+      "metaSortKey": -1593210343305,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5c00db4214414f1a8623550b495d9a3b",
+      "parentId": "fld_3853e2c0b47d40d0950ecb6b1137223d",
+      "modified": 1624575460563,
+      "created": 1594323614555,
+      "url": "{{ _.base_url }}/missa_usuario/1/1",
+      "name": "Criar",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"quantidade_pessoas\": 4\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_34dd98823e3d4854a1d7599ac2c9e03b",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ token_usuario }}"
+      },
+      "metaSortKey": -1593210343630,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_3853e2c0b47d40d0950ecb6b1137223d",
+      "parentId": "wrk_af26b967fa534c6a80450bf6d194da0e",
+      "modified": 1600366865769,
+      "created": 1597331698424,
+      "name": "Missa_Usuários",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1597331594285,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_8e2dff5b2aed406bb50ba7d21086a6a0",
+      "parentId": "fld_3853e2c0b47d40d0950ecb6b1137223d",
+      "modified": 1624575464436,
+      "created": 1594663304035,
+      "url": "{{ _.base_url }}/missa_usuario",
+      "name": "Listar",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ token_pascom }}"
+      },
+      "metaSortKey": -1593210343617.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_09581cdea40a4d879993fd977bfa4572",
+      "parentId": "fld_3853e2c0b47d40d0950ecb6b1137223d",
+      "modified": 1624575468779,
+      "created": 1600356548343,
+      "url": "{{ _.base_url }}/missa_usuario/1/1",
+      "name": "Editar",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"quantidade_pessoas\": 4\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_34dd98823e3d4854a1d7599ac2c9e03b",
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ token_usuario }}"
+      },
+      "metaSortKey": -1593210343567.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_03588da1cb264370b8a06136d5ec2af2",
+      "parentId": "fld_3853e2c0b47d40d0950ecb6b1137223d",
+      "modified": 1624575472640,
+      "created": 1600363572608,
+      "url": "{{ _.base_url }}/missa_usuario/1/1",
+      "name": "Deletar",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ token_usuario }}"
+      },
+      "metaSortKey": -1593210343536.25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_656fea31866c4d908ebd6938cca3cb8a",
+      "parentId": "fld_3d474cc435234890b19d0a3263f79ad5",
+      "modified": 1624575386060,
+      "created": 1594312757032,
+      "url": "{{ _.base_url }}/locais",
+      "name": "Listar",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1597331594235,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_3d474cc435234890b19d0a3263f79ad5",
+      "parentId": "wrk_af26b967fa534c6a80450bf6d194da0e",
+      "modified": 1601569942024,
+      "created": 1601569933746,
+      "name": "Locais",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1597331594235,
+      "_type": "request_group"
+    },
+    {
+      "_id": "env_1c910472d863c153fb3c4ae347cb0e232f3462f1",
+      "parentId": "wrk_af26b967fa534c6a80450bf6d194da0e",
+      "modified": 1624575649936,
+      "created": 1593210295810,
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3333",
+        "deploy_url": "https://banco-dados-pscj-missas-pascom.herokuapp.com",
+        "token_usuario": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjI0NTc1NTQ1LCJleHAiOjE2MjQ1ODk5NDV9.T2gzc8aNn4nHobIYZBl-2Yb0r4XY-wwWvTJbpSkJPyk",
+        "token_pascom": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjI0NTc1NTExLCJleHAiOjE2MjQ1ODk5MTF9.AImxPmoj6TZQPtLbnGglElsK8bS_Hc5K0kqGuTJKJ64"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "deploy_url",
+          "token_usuario",
+          "token_pascom"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1593210295810,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_1c910472d863c153fb3c4ae347cb0e232f3462f1",
+      "parentId": "wrk_af26b967fa534c6a80450bf6d194da0e",
+      "modified": 1608086136577,
+      "created": 1593210295818,
+      "name": "Default Jar",
+      "cookies": [
+        {
+          "key": "adonis-session",
+          "value": "ae249a3ab4967a1dc86114f3be5543b6eBuHe%2F1kwwSP0s%2Fqaq6lSw0LREK7eBpFDvrfbof78RTPGV4Dg1esoDhV072n2dFoGzy%2B1pMWkf6LfKP%2BaCPUiUtGn9VaoFPn%2BK8PyrHGG9WHe9xpM9GLX5S2l2VRzZEP",
+          "domain": "app.rocketseat.com.br",
+          "path": "/",
+          "httpOnly": true,
+          "hostOnly": true,
+          "creation": "2020-12-16T02:15:06.243Z",
+          "lastAccessed": "2020-12-16T02:35:36.577Z",
+          "id": "5245954602887193"
+        }
+      ],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_89fc6860fe2b40da9dbc7697b2c4ccef",
+      "parentId": "wrk_af26b967fa534c6a80450bf6d194da0e",
+      "modified": 1593210295623,
+      "created": 1593210295623,
+      "fileName": "Projeto PSCJ",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    }
+  ]
+}

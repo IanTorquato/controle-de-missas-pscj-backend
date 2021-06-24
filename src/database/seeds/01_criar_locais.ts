@@ -18,7 +18,6 @@ export async function seed(Knex: Knex) {
 		{ nome: 'Gruta São Miguel', imagem: 'grutaSaoMiguel.jpg' },
 		{ nome: 'Gruta Riacho', imagem: 'grutaRiacho.jpg' },
 		{ nome: 'Gruta Caeté', imagem: 'grutaCaete.jpg' },
-		{ nome: 'Gruta Baixadinha', imagem: 'grutaBaixadinha.jpg' },
-		{ nome: 'Gruta Centro', imagem: 'grutaCentro.jpg' },
+		{ nome: 'Gruta Baixadinha', imagem: 'grutaBaixadinha.jpg' }
 	])
 }
