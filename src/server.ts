@@ -8,8 +8,8 @@ import routes from './routes'
 const app = express()
 
 const localUploads = process.env.PORT !== '3333'
-	? express.static(path.resolve(__dirname, '..', '..', 'src', 'uploads'))
-	: express.static(path.resolve(__dirname, 'uploads'))
+  ? express.static(path.resolve(__dirname, '..', '..', 'src', 'uploads'))
+  : express.static(path.resolve(__dirname, 'uploads'))
 
 app.use(express.json())
 app.use(cors(process.env.PG_HOST !== 'localhost' ? { origin: 'https://pascom-missas-gravatal.netlify.app' } : {}))

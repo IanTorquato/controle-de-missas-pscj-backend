@@ -1,14 +1,14 @@
 {
-	"compilerOptions": {
-		/* Visit https://aka.ms/tsconfig.json to read more about this file */
-		
-		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true,
-		"module": "commonjs",
-		"outDir": "./dist",
-		"skipLibCheck": true,
-		"strict": true,
-		"target": "ES2017"
-	},
-	"exclude": ["node_modules"]
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "ES2017"
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

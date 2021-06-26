@@ -52,6 +52,6 @@ routes.post('/missa_usuario/:missa_id/:usuario_id', verificaLoginUsuario, verifi
 routes.get('/missa_usuario', verificaLoginPascom, verificaLogins, missaUsuario.index)
 routes.put('/missa_usuario/:missa_id/:usuario_id', verificaLoginUsuario, verificaLogins, missaUsuario.update)
 routes.delete('/missa_usuario/:missa_id/:usuario_id', verificaLoginUsuario,
-	verificaLogins, missaUsuario.delete)
+  verificaLogins, missaUsuario.delete)
 
 export default routes
